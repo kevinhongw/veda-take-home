@@ -1,0 +1,13 @@
+{
+  "name": "react-node-template",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start:client": "",
+    "start:server": "",
+    "test": "",
+    "lint": ""
+  },
+  "author": "Kevin Hong",
+  "license": "MIT"
+}

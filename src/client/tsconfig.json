@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "strict": true,
+        "module": "esnext",
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "target": "es2022",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": "./src",
+    }
+}
