@@ -11,7 +11,7 @@ const HospitalInfo: React.FC<Props> = ({ hospital }) => {
       <Box fontSize={'16px'} margin={0}>
         {hospital.name}
       </Box>
-      <Box>{`${hospital.address} ${hospital.city} ${hospital.state} ${hospital.zip}`}</Box>
+      <Box>{`${hospital.address}, ${hospital.city}, ${hospital.state} ${hospital.zip}`}</Box>
       <Box>
         <strong>{hospital.phoneNumber}</strong>
       </Box>
