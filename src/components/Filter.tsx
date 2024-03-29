@@ -15,14 +15,16 @@ const Filter: React.FC<Props> = ({ name, options, values, onChange }) => {
 
   return (
     <div>
-      <Typography variant="h6">{name}</Typography>
+      <Typography fontWeight={500} fontSize="16px">
+        {name}
+      </Typography>
       <FormGroup>
         {options.map((option) => (
           <FormControlLabel
             key={option}
-            control={
-              <Checkbox checked={values.includes(option)} onChange={() => handleOnChange(option)} />
-            }
+            checked={values.includes(option)}
+            onChange={() => handleOnChange(option)}
+            control={<Checkbox size="small" />}
             label={option}
           />
         ))}
