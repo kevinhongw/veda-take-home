@@ -1,5 +1,12 @@
 # Veda take home exercise
 
+## Run through docker
+
+// root folder
+docker-compose up --build
+
+// client app will start running on port 3000
+
 ## Prompt
 
 ### Overview
