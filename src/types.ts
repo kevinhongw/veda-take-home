@@ -1,0 +1,20 @@
+type Hospital = {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  countyName: string;
+  phoneNumber: string;
+  hospitalType: string;
+  hospitalOwnership: string;
+  hasER: boolean;
+  meetsEHRCriteria: boolean;
+  overallRating: string;
+  mortalityNationalComparison: string;
+  safetyOfCareNationalComparison: string;
+  readmissionNationalComparison: string;
+  lat: number;
+  lon: number;
+};
