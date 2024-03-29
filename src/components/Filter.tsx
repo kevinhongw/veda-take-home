@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
 import React from 'react';
 
 type Props = {
@@ -14,7 +14,7 @@ const Filter: React.FC<Props> = ({ name, options, values, onChange }) => {
   };
 
   return (
-    <div>
+    <Box>
       <Typography fontWeight={500} fontSize="16px">
         {name}
       </Typography>
@@ -29,7 +29,7 @@ const Filter: React.FC<Props> = ({ name, options, values, onChange }) => {
           />
         ))}
       </FormGroup>
-    </div>
+    </Box>
   );
 };
 

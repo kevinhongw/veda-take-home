@@ -1,6 +1,6 @@
 import { Cancel, Search } from '@mui/icons-material';
-import { Box, Button, InputAdornment, TextField } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import { Box, InputAdornment, TextField } from '@mui/material';
+import React, { useRef } from 'react';
 
 type Props = {
   onSearch: (search: string) => void;
@@ -24,27 +24,25 @@ const SearchInput: React.FC<Props> = ({ onSearch }) => {
   };
 
   return (
-    <Box>
-      <form onSubmit={handleSearch}>
-        <TextField
-          size="small"
-          name="search"
-          inputRef={inputRef}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
-            endAdornment: !!inputRef.current?.value && (
-              <InputAdornment position="end" onClick={handleReset} sx={{ cursor: 'default' }}>
-                <Cancel />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </form>
-    </Box>
+    <form onSubmit={handleSearch}>
+      <TextField
+        size="small"
+        name="search"
+        inputRef={inputRef}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+          endAdornment: !!inputRef.current?.value && (
+            <InputAdornment position="end" onClick={handleReset} sx={{ cursor: 'default' }}>
+              <Cancel />
+            </InputAdornment>
+          ),
+        }}
+      />
+    </form>
   );
 };
 

@@ -1,15 +1,17 @@
+import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import HospitalInfo from './HospitalInfo';
-import { Box, CircularProgress } from '@mui/material';
+
+import HospitalInfo from 'components/HospitalInfo';
 
 type Props = {
   data: Hospital[];
   isLoading: boolean;
 };
 
+// This is required for leaflet-cluster to work properly
 const customIcon = new L.Icon({
   // eslint-disable-next-line
   iconUrl: require('../assets/location.svg').default,

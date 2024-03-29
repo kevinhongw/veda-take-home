@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { useHospitals } from 'hooks/useHospitals';
-import HospitalMap from './HospitalMap';
-import SearchInput from './SearchInput';
-import Filter from './Filter';
 
-type Filters = {
+import HospitalMap from 'components/HospitalMap';
+import SearchInput from 'components/SearchInput';
+import FilterGroups from './FilterGroups';
+
+export type Filters = {
   rating: string[];
   hasER: string[]; // should be a boolean
   meetsEHRCriteria: string[];
 };
 
-type DisplayFilterConfig = {
-  name: string;
-  options: any[];
-  values: any[];
-  onChange: (value: string) => void;
-};
-
-type FilterFields = keyof Filters;
+export type FilterFields = keyof Filters;
 
 const HospitalSearchMap = () => {
   const { data: hospitals, isLoading: isDataLoading } = useHospitals(); // simulate real api call
@@ -36,31 +30,10 @@ const HospitalSearchMap = () => {
     filterHospitals();
   }, [hospitals, filters, searchTerm]);
 
-  const displayFilters: DisplayFilterConfig[] = [
-    {
-      name: 'Rating',
-      options: ['1', '2', '3', '4', '5'],
-      values: filters?.rating || [],
-      onChange: (value: string) => handleFilterChange('rating', value),
-    },
-    {
-      name: 'Has ER',
-      options: ['Yes', 'No'],
-      values: filters?.hasER || [],
-      onChange: (value: string) => handleFilterChange('hasER', value),
-    },
-    {
-      name: 'Meets EHR criteria',
-      options: ['Yes', 'No'],
-      values: filters?.meetsEHRCriteria || [],
-      onChange: (value: string) => handleFilterChange('meetsEHRCriteria', value),
-    },
-  ];
-
   const filterHospitals = () => {
-    let result = [...(hospitals || [])];
+    // TODO: Performance could be way better
 
-    console.log(filters);
+    let result = hospitals || [];
 
     if (searchTerm && searchTerm !== '') {
       result = result.filter((hospital) =>
@@ -96,6 +69,7 @@ const HospitalSearchMap = () => {
 
     const filterValue = filters[filterField];
 
+    // Toggle filter value
     const index = filterValue?.indexOf(value);
     if (index !== -1) {
       filterValue.splice(index, 1);
@@ -113,19 +87,16 @@ const HospitalSearchMap = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid md={12}>
-        <SearchInput onSearch={handleOnSearch} />
-      </Grid>
       <Grid md={3}>
-        {displayFilters.map((filterConfig) => (
-          <Filter
-            key={filterConfig.name}
-            name={filterConfig.name}
-            options={filterConfig.options}
-            values={filterConfig.values}
-            onChange={filterConfig.onChange}
-          />
-        ))}
+        <Box
+          padding="16px"
+          sx={{ border: '1px solid #aaa', borderRadius: '8px' }}
+          display={'flex'}
+          flexDirection={'column'}
+          gap={'16px'}>
+          <SearchInput onSearch={handleOnSearch} />
+          <FilterGroups filters={filters} onChange={handleFilterChange} />
+        </Box>
       </Grid>
       <Grid xs={9}>
         <HospitalMap data={filteredHospitals} isLoading={loading} />
