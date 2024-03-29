@@ -154,3 +154,5 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+./cms_hospital_patient_satisfaction_2020.csv
