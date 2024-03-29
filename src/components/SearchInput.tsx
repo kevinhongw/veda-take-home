@@ -1,36 +1,49 @@
-import { Box, Button, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { Cancel, Search } from '@mui/icons-material';
+import { Box, Button, InputAdornment, TextField } from '@mui/material';
+import React, { useRef, useState } from 'react';
 
 type Props = {
   onSearch: (search: string) => void;
 };
 
 const SearchInput: React.FC<Props> = ({ onSearch }) => {
-  const [search, setSearch] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>();
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-
-  const handleSearch = () => {
-    onSearch(search);
+    if (inputRef.current) {
+      onSearch(inputRef.current.value);
+    }
   };
 
   const handleReset = () => {
-    // TODO: Cleaner approach
-    setSearch('');
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
     onSearch('');
   };
 
   return (
     <Box>
-      <TextField size="small" name="search" value={search} onChange={handleChange} />
-      <Button variant="contained" onClick={handleSearch}>
-        Search
-      </Button>
-      <Button variant="contained" color="error" onClick={handleReset}>
-        Reset
-      </Button>
+      <form onSubmit={handleSearch}>
+        <TextField
+          size="small"
+          name="search"
+          inputRef={inputRef}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+            endAdornment: !!inputRef.current?.value && (
+              <InputAdornment position="end" onClick={handleReset} sx={{ cursor: 'default' }}>
+                <Cancel />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </form>
     </Box>
   );
 };
