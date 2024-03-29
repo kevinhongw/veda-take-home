@@ -12,28 +12,16 @@ fs.readFile(path, 'utf8', (err, data) => {
     return;
   }
 
-  // Split the data into lines
-
   const parsedData = parse(data);
-  // const lines = data.split('\n');
 
-  // Initialize the output array
   const output = [];
 
-  // lines.shift();
+  // remove header
   parsedData.shift();
-
-  // Loop through each line and split it into fields
 
   const set = new Set();
 
-  console.log(parsedData[1]);
-
   parsedData.forEach((fields) => {
-    // lines.forEach((line) => {
-    // const fields = line.split(',');
-
-    // if (!set.has(line['Facility ID'])) {
     if (!set.has(fields[2])) {
       const hospital = {
         id: fields[2],
@@ -52,26 +40,20 @@ fs.readFile(path, 'utf8', (err, data) => {
         mortalityNationalComparison: fields[31],
         safetyOfCareNationalComparison: fields[33],
         readmissionNationalComparison: fields[35],
+        patientExperienceNationalComparison: fields[37],
+        effectivenessOfCareNationalComparison: fields[39],
+        timelinessOfCareNationalComparison: fields[41],
         lat: Number(fields[45]),
         lon: Number(fields[46]),
       };
 
       output.push(hospital);
-      // output.push(line);
 
       set.add(fields[2]);
     }
   });
 
-  // Log the output array
-  console.log(output.length);
+  console.log(`Hospital Count: ${output.length}`);
 
   fs.writeFileSync('hospitals.json', JSON.stringify(output), 'utf8');
-  // fs.writeFileSync('hospitals.csv', output.join('\n'), 'utf8', function (err) {
-  //   if (err) {
-  //     console.log('Some error occured - file either not saved or corrupted file saved.');
-  //   } else {
-  //     console.log("It's saved!");
-  //   }
-  // });
 });

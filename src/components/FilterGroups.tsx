@@ -6,8 +6,7 @@ import Filter from 'components/Filter';
 type DisplayFilterConfig = {
   name: string;
   options: string[];
-  values: string[];
-  onChange: (value: string) => void;
+  field: FilterFields;
 };
 
 type Props = {
@@ -19,21 +18,49 @@ const FilterGroups: React.FC<Props> = ({ filters, onChange }) => {
   const displayFilters: DisplayFilterConfig[] = [
     {
       name: 'Rating',
-      options: ['1', '2', '3', '4', '5'],
-      values: filters?.rating || [],
-      onChange: (value: string) => onChange('rating', value),
+      options: ['5', '4', '3', '2', '1'],
+      field: 'rating',
     },
     {
       name: 'Has ER',
       options: ['Yes', 'No'],
-      values: filters?.hasER || [],
-      onChange: (value: string) => onChange('hasER', value),
+      field: 'hasER',
     },
     {
       name: 'Meets EHR criteria',
       options: ['Yes', 'No'],
-      values: filters?.meetsEHRCriteria || [],
-      onChange: (value: string) => onChange('meetsEHRCriteria', value),
+      field: 'meetsEHRCriteria',
+    },
+    {
+      name: 'Hospital Type',
+      options: [
+        'Acute Care Hospitals',
+        'Acute Care - Department of Defense',
+        'Childrens',
+        'Critical Access Hospitals',
+      ],
+      field: 'hospitalType',
+    },
+    {
+      name: 'Timeliness of care',
+      options: [
+        'Above the national average',
+        'Same as the national average',
+        'Below the national average',
+        'Not Available',
+      ],
+      field: 'timelinessOfCare',
+    },
+
+    {
+      name: 'Safety of care',
+      options: [
+        'Above the national average',
+        'Same as the national average',
+        'Below the national average',
+        'Not Available',
+      ],
+      field: 'safetyOfCare',
     },
   ];
   return (
@@ -43,8 +70,8 @@ const FilterGroups: React.FC<Props> = ({ filters, onChange }) => {
           key={filterConfig.name}
           name={filterConfig.name}
           options={filterConfig.options}
-          values={filterConfig.values}
-          onChange={filterConfig.onChange}
+          values={filters[filterConfig.field]}
+          onChange={(value: string) => onChange(filterConfig.field, value)}
         />
       ))}
     </>

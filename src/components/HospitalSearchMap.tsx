@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { useHospitals } from 'hooks/useHospitals';
 
@@ -11,19 +11,27 @@ export type Filters = {
   rating: string[];
   hasER: string[]; // should be a boolean
   meetsEHRCriteria: string[];
+  hospitalType: string[];
+  safetyOfCare: string[];
+  timelinessOfCare: string[];
 };
 
 export type FilterFields = keyof Filters;
+
+const initFilters = () => ({
+  rating: [],
+  hasER: [],
+  meetsEHRCriteria: [],
+  hospitalType: [],
+  safetyOfCare: [],
+  timelinessOfCare: [],
+});
 
 const HospitalSearchMap = () => {
   const { data: hospitals, isLoading: isDataLoading } = useHospitals(); // simulate real api call
   const [isMapLoading, setIsMapLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [filters, setFilters] = useState<Filters>({
-    rating: [],
-    hasER: [],
-    meetsEHRCriteria: [],
-  });
+  const [filters, setFilters] = useState<Filters>(initFilters());
   const [filteredHospitals, setFilteredHospitals] = useState<Hospital[]>(hospitals || []);
 
   useEffect(() => {
@@ -55,6 +63,22 @@ const HospitalSearchMap = () => {
       );
     }
 
+    if (filters.hospitalType.length > 0) {
+      result = result.filter((hospital) => filters.hospitalType.includes(hospital.hospitalType));
+    }
+
+    if (filters.safetyOfCare.length > 0) {
+      result = result.filter((hospital) =>
+        filters.safetyOfCare.includes(hospital.safetyOfCareNationalComparison),
+      );
+    }
+
+    if (filters.timelinessOfCare.length > 0) {
+      result = result.filter((hospital) =>
+        filters.timelinessOfCare.includes(hospital.timelinessOfCareNationalComparison),
+      );
+    }
+
     setFilteredHospitals(result);
     setIsMapLoading(false);
   };
@@ -83,6 +107,10 @@ const HospitalSearchMap = () => {
     });
   };
 
+  const handleResetFilter = () => {
+    setFilters(initFilters());
+  };
+
   const loading = isDataLoading || isMapLoading;
 
   return (
@@ -96,9 +124,13 @@ const HospitalSearchMap = () => {
           gap={'16px'}>
           <SearchInput onSearch={handleOnSearch} />
           <FilterGroups filters={filters} onChange={handleFilterChange} />
+          <Button variant="contained" size="small" onClick={handleResetFilter}>
+            Reset filters
+          </Button>
         </Box>
       </Grid>
       <Grid xs={9}>
+        <Typography>{filteredHospitals.length} hospitals found</Typography>
         <HospitalMap data={filteredHospitals} isLoading={loading} />
       </Grid>
     </Grid>

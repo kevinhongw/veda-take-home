@@ -15,6 +15,9 @@ type Hospital = {
   mortalityNationalComparison: string;
   safetyOfCareNationalComparison: string;
   readmissionNationalComparison: string;
+  patientExperienceNationalComparison: string;
+  effectivenessOfCareNationalComparison: string;
+  timelinessOfCareNationalComparison: string;
   lat: number;
   lon: number;
 };
