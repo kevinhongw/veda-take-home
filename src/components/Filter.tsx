@@ -9,10 +9,6 @@ type Props = {
 };
 
 const Filter: React.FC<Props> = ({ name, options, values, onChange }) => {
-  const handleOnChange = (option: string) => {
-    onChange(option);
-  };
-
   return (
     <Box>
       <Typography fontWeight={500} fontSize="16px">
@@ -23,7 +19,7 @@ const Filter: React.FC<Props> = ({ name, options, values, onChange }) => {
           <FormControlLabel
             key={option}
             checked={values.includes(option)}
-            onChange={() => handleOnChange(option)}
+            onChange={() => onChange(option)}
             control={<Checkbox size="small" />}
             label={option}
           />

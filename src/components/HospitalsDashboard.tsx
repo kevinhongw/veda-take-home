@@ -6,6 +6,7 @@ import { useHospitals } from 'hooks/useHospitals';
 import HospitalMap from 'components/HospitalMap';
 import SearchInput from 'components/SearchInput';
 import FilterGroups from './FilterGroups';
+import MapDisplayOptions from './MapDisplayOptions';
 
 export type Filters = {
   rating: string[];
@@ -14,6 +15,11 @@ export type Filters = {
   hospitalType: string[];
   safetyOfCare: string[];
   timelinessOfCare: string[];
+};
+
+export type MapDisplayOptions = {
+  markers: boolean;
+  heatMap: boolean;
 };
 
 export type FilterFields = keyof Filters;
@@ -27,20 +33,23 @@ const initFilters = () => ({
   timelinessOfCare: [],
 });
 
-const HospitalSearchMap = () => {
+const HospitalsDashboard = () => {
   const { data: hospitals, isLoading: isDataLoading } = useHospitals(); // simulate real api call
   const [isMapLoading, setIsMapLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filters, setFilters] = useState<Filters>(initFilters());
   const [filteredHospitals, setFilteredHospitals] = useState<Hospital[]>(hospitals || []);
+  const [displayOptions, setDisplayOptions] = useState<MapDisplayOptions>({
+    markers: true,
+    heatMap: true,
+  });
 
   useEffect(() => {
     filterHospitals();
   }, [hospitals, filters, searchTerm]);
 
+  // TODO: Improve filter performance
   const filterHospitals = () => {
-    // TODO: Performance could be way better
-
     let result = hospitals || [];
 
     if (searchTerm && searchTerm !== '') {
@@ -88,6 +97,13 @@ const HospitalSearchMap = () => {
     setSearchTerm(newSearchTerm);
   };
 
+  const handleDisplayOptionChange = (field: keyof MapDisplayOptions, value: boolean) => {
+    setDisplayOptions({
+      ...displayOptions,
+      [field]: value,
+    });
+  };
+
   const handleFilterChange = (filterField: FilterFields, value: string) => {
     setIsMapLoading(true);
 
@@ -122,6 +138,7 @@ const HospitalSearchMap = () => {
           display={'flex'}
           flexDirection={'column'}
           gap={'16px'}>
+          <MapDisplayOptions displayOptions={displayOptions} onChange={handleDisplayOptionChange} />
           <SearchInput onSearch={handleOnSearch} />
           <FilterGroups filters={filters} onChange={handleFilterChange} />
           <Button variant="contained" size="small" onClick={handleResetFilter}>
@@ -131,10 +148,10 @@ const HospitalSearchMap = () => {
       </Grid>
       <Grid xs={9}>
         <Typography>{filteredHospitals.length} hospitals found</Typography>
-        <HospitalMap data={filteredHospitals} isLoading={loading} />
+        <HospitalMap data={filteredHospitals} isLoading={loading} displayOptions={displayOptions} />
       </Grid>
     </Grid>
   );
 };
 
-export default HospitalSearchMap;
+export default HospitalsDashboard;

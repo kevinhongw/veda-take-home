@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Filters, FilterFields } from 'components/HospitalSearchMap';
+import type { Filters, FilterFields } from 'components/HospitalsDashboard';
 import Filter from 'components/Filter';
 
 type DisplayFilterConfig = {

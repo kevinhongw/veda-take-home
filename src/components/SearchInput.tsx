@@ -1,5 +1,5 @@
 import { Cancel, Search } from '@mui/icons-material';
-import { Box, InputAdornment, TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import React, { useRef } from 'react';
 
 type Props = {
