@@ -1,7 +1,8 @@
 import { Box, CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import L, { Map as LeafletMap } from 'leaflet';
 import 'leaflet.heat';
-import L, { HeatLatLngTuple, HeatLayer, Map as LeafletMap } from 'leaflet';
+import { HeatLatLngTuple, HeatLayer } from 'leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
